@@ -5,7 +5,13 @@ class ThreatComposerMonorepoProject extends MonorepoTsProject {
     super({
       defaultReleaseBranch: "main",
       name: "@aws/threat-composer-monorepo",
-      devDeps: ["@aws/pdk", "eslint-plugin-header", "license-checker", "husky"],
+      devDeps: [
+        "@aws/pdk",
+        "eslint-plugin-header",
+        "license-checker",
+        "husky",
+        "@babel/helper-split-export-declaration",
+      ],
     });
 
     this.tryFindObjectFile("package.json")?.addOverride(
@@ -34,7 +40,7 @@ class ThreatComposerMonorepoProject extends MonorepoTsProject {
     );
     this.tryFindObjectFile("package.json")?.addOverride(
       "resolutions.@babel/traverse",
-      "^7.23.2"
+      "^7.25.0"
     );
     this.tryFindObjectFile("package.json")?.addOverride(
       "resolutions.postcss",
@@ -43,6 +49,10 @@ class ThreatComposerMonorepoProject extends MonorepoTsProject {
     this.tryFindObjectFile("package.json")?.addOverride(
       "resolutions.web-ext-run",
       "^0.2.1"
+    );
+    this.tryFindObjectFile("package.json")?.addOverride(
+      "resolutions.esbuild",
+      "^0.25.4"
     );
 
     this.tryFindObjectFile("package.json")?.addOverride("workspaces.nohoist", [

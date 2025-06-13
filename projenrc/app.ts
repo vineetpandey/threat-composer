@@ -32,6 +32,7 @@ class ThreatComposerReactAppProject extends ReactTypeScriptProject {
         "@types/react-router-dom",
         "@types/uuid",
         "merge",
+        "react-app-rewired",
       ],
       jestOptions: {
         configFilePath: "./jest.config.js",
@@ -44,19 +45,19 @@ class ThreatComposerReactAppProject extends ReactTypeScriptProject {
     });
 
     this.testTask.reset(
-      "react-scripts test --watchAll=false --passWithNoTests"
+      "react-app-rewired test --watchAll=false --passWithNoTests"
     );
     const compileWebsiteTask = this.addTask("compile:website", {
-      exec: "BUILD_PATH=./build/website/ react-scripts build",
+      exec: "BUILD_PATH=./build/website/ react-app-rewired build",
     });
     const compileBrowserExtensionTask = this.addTask(
       "compile:browser-extension",
       {
-        exec: "INLINE_RUNTIME_CHUNK=false BUILD_PATH=./build/browser-extension/ REACT_APP_APP_MODE=browser-extension react-scripts build",
+        exec: "INLINE_RUNTIME_CHUNK=false BUILD_PATH=./build/browser-extension/ REACT_APP_APP_MODE=browser-extension react-app-rewired build",
       }
     );
     const compileIDEExtensionTask = this.addTask("compile:ide-extension", {
-      exec: "INLINE_RUNTIME_CHUNK=false BUILD_PATH=./build/ide-extension/ REACT_APP_APP_MODE=ide-extension react-scripts build",
+      exec: "INLINE_RUNTIME_CHUNK=false BUILD_PATH=./build/ide-extension/ REACT_APP_APP_MODE=ide-extension react-app-rewired build",
     });
 
     this.compileTask.reset(
