@@ -32,7 +32,7 @@ class ThreatComposerMonorepoProject extends MonorepoTsProject {
     );
     this.tryFindObjectFile("package.json")?.addOverride(
       "resolutions.js-yaml",
-      "^3.13.1"
+      "^3.14.2"
     );
     this.tryFindObjectFile("package.json")?.addOverride(
       "resolutions.semver",
@@ -63,6 +63,20 @@ class ThreatComposerMonorepoProject extends MonorepoTsProject {
     this.addGitIgnore("storybook.out/");
     this.addGitIgnore(".DS_Store");
     this.addGitIgnore(".output/");
+    this.addGitIgnore(".threat-composer/");
+
+    // Python-specific patterns
+    this.addGitIgnore("__pycache__/");
+    this.addGitIgnore("*.py[cod]");
+    this.addGitIgnore("*$py.class");
+    this.addGitIgnore("*.so");
+    this.addGitIgnore(".Python");
+    this.addGitIgnore("*.egg-info/");
+    this.addGitIgnore(".pytest_cache/");
+    this.addGitIgnore(".coverage");
+    this.addGitIgnore(".env");
+    this.addGitIgnore(".venv/");
+    this.addGitIgnore("venv/");
 
     this.addTask("export:examples", {
       steps: [
@@ -99,8 +113,17 @@ class ThreatComposerMonorepoProject extends MonorepoTsProject {
       exec: "GENERATE_SOURCEMAP=false npx nx run @aws/threat-composer:storybook",
     });
 
+    this.addTask("ai:cli", {
+      exec: "uv run --project packages/threat-composer-ai threat-composer-ai-cli",
+      receiveArgs: true,
+    });
+
     this.addTask("build:packs", {
       exec: "npx ts-node ./scripts/data/buildPacks.ts ThreatPack && npx ts-node ./scripts/data/buildPacks.ts MitigationPack",
+    });
+
+    this.addTask("build:schema", {
+      exec: 'npx ts-node --compiler-options \'{"lib":["es2019","dom"]}\' ./scripts/generateSchema.ts',
     });
 
     this.buildTask.reset();
@@ -108,6 +131,8 @@ class ThreatComposerMonorepoProject extends MonorepoTsProject {
     this.buildTask.exec(
       "yarn nx run-many --target=build --output-style=stream --nx-bail"
     );
+
+    this.buildTask.spawn(this.tasks.tryFind("build:schema")!);
 
     this.compileTask.reset(
       "npx nx run-many --target=build --all --skip-nx-cache --nx-bail"

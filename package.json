@@ -1,8 +1,10 @@
 {
   "name": "@aws/threat-composer-monorepo",
   "scripts": {
+    "ai:cli": "npx projen ai:cli",
     "build": "npx projen build",
     "build:packs": "npx projen build:packs",
+    "build:schema": "npx projen build:schema",
     "clobber": "npx projen clobber",
     "compile": "npx projen compile",
     "default": "npx projen default",
@@ -16,6 +18,7 @@
     "package": "npx projen package",
     "post-compile": "npx projen post-compile",
     "post-upgrade": "npx projen post-upgrade",
+    "postinstall": "npx projen postinstall",
     "pre-compile": "npx projen pre-compile",
     "prepare": "npx projen prepare",
     "run-many": "npx projen run-many",
@@ -28,7 +31,7 @@
     "synth-workspace": "yarn projen"
   },
   "devDependencies": {
-    "@aws/pdk": "0.26.6",
+    "@aws/pdk": "^0.26.7",
     "@babel/helper-split-export-declaration": "^7.24.7",
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^7",
@@ -66,7 +69,7 @@
     "react": "^18.2.0",
     "nth-check": "^2.1.1",
     "yaml": "^2.2.2",
-    "js-yaml": "^3.13.1",
+    "js-yaml": "^3.14.2",
     "semver": "^7.5.3",
     "@babel/traverse": "^7.25.0",
     "postcss": "^8.4.31",
